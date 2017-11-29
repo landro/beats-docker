@@ -20,9 +20,9 @@ COPY config {{ beat_home }}
 # Add entrypoint wrapper script
 ADD docker-entrypoint /usr/local/bin
 
-# Provide a non-root user.
-RUN groupadd --gid 1000 {{ beat }} && \
-    useradd -M --uid 1000 --gid 1000 --home {{ beat_home }} {{ beat }}
+# Provide a custom system user.
+RUN groupadd --system --gid 900 {{ beat }} && \
+    useradd --system -M --uid 900 --gid 900 --home {{ beat_home }} {{ beat }}
 
 WORKDIR {{ beat_home }}
 RUN mkdir data logs && \
